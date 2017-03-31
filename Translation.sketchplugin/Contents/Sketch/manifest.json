@@ -1,0 +1,42 @@
+{
+  "author" : "Hoai Nguyen",
+  "commands" : [
+    {
+      "script" : "main.js",
+      "name" : "Generate language file",
+      "handlers" : {
+        "run" : "onGenerate"
+      },
+      "identifier" : "com.hoainguyen.sketch.actionGenerateFile"
+    },
+    {
+      "script" : "main.js",
+      "name" : "Add to language file",
+      "handlers" : {
+        "run" : "onAddToLanguageFile"
+      },
+      "identifier" : "com.hoainguyen.sketch.actionAddToLanguageFile"
+    },
+    {
+      "script" : "main.js",
+      "name" : "Translate",
+      "handlers" : {
+        "run" : "onTranslate"
+      },
+      "identifier" : "com.hoainguyen.sketch.actionTranslateLanguageFile"
+    }
+  ],
+  "menu" : {
+    "items" : [
+      "com.hoainguyen.sketch.actionGenerateFile",
+      "com.hoainguyen.sketch.actionAddToLanguageFile",
+      "com.hoainguyen.sketch.actionTranslateLanguageFile"
+    ],
+    "title" : "Lozi Translation"
+  },
+  "identifier" : "com.hoainguyen.sketch.d8f0dcf3-8e12-4f1d-988c-e2f0da9ad29d",
+  "version" : "1.0",
+  "description" : "",
+  "authorEmail" : "",
+  "name" : "Translation"
+}
