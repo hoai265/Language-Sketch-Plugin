@@ -6,7 +6,8 @@ A Sketch plugin for easy multi-language design
  * Put `Translation.sketchplugin` in Sketch Plugins folder.
 
 # Usage
-## Generate language file:
+ Use `Generate language file` action -> Edit and save the `.json` file -> Use `Translate` action.
+## Action `Generate language file`:
 
 * Change your text layer name you want to generate with prefix **o_**
 * In Sketch: `Plugins` -> `Translation` -> `Generate language file` -> Add your language keys with format: `key1,key2,...,keyn`
@@ -14,13 +15,13 @@ A Sketch plugin for easy multi-language design
 
   <img src="https://github.com/hoai265/Language-Sketch-Plugin/blob/master/resource/Generate.gif" width="600"/>
   
-## Translate from language file:
+## Action `Translate`:
 
 * In Sketch: `Plugins` > `Translation` -> `Translate` -> choose the language key
 
   <img src="https://github.com/hoai265/Language-Sketch-Plugin/blob/master/resource/Translate.gif" width="600"/>
 
-## Add more text layers to language file:
+## Action `Add to language file`:
 After generating language file, if you want to add some more text: 
 
 * Select all text layer you want to add
