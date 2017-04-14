@@ -4,6 +4,10 @@ A Sketch plugin for easy multi-language design
 # Install
  * Download `Translation.sketchplugin.zip` and  extract to get `Translation.sketchplugin` file.
  * Put `Translation.sketchplugin` in Sketch Plugins folder.
+ 
+ Or use Sketchpacks to install and update:
+ 
+ [![Install PLUGIN NAME with Sketchpacks](http://sketchpacks-com.s3.amazonaws.com/assets/badges/sketchpacks-badge-install.png "Install PLUGIN NAME with Sketchpacks")](https://sketchpacks.com/YOUR_NAME/PLUGIN_NAME/install)
 
 # Usage
  Use `Generate language file` action -> Edit and save the `.json` file -> Use `Translate` action.
