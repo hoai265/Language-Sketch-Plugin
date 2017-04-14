@@ -7,7 +7,7 @@ A Sketch plugin for easy multi-language design
  
  Or use Sketchpacks to install and update:
  
- [![Install PLUGIN NAME with Sketchpacks](http://sketchpacks-com.s3.amazonaws.com/assets/badges/sketchpacks-badge-install.png "Install PLUGIN NAME with Sketchpacks")](https://sketchpacks.com/YOUR_NAME/PLUGIN_NAME/install)
+ [![Install PLUGIN NAME with Sketchpacks](http://sketchpacks-com.s3.amazonaws.com/assets/badges/sketchpacks-badge-install.png "Install PLUGIN NAME with Sketchpacks")](https://sketchpacks.com/hoai265/language-sketch-plugin/install)
 
 # Usage
  Use `Generate language file` action -> Edit and save the `.json` file -> Use `Translate` action.
