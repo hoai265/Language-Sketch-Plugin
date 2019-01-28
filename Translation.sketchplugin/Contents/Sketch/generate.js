@@ -1,107 +1,138 @@
 @import 'utils.js'
-function generateLanguageFile(doc){
-	var languageKeys = getLanguageKeys();
-	generateLanguageString(doc,languageKeys);
+
+function generateLanguageFile(doc) {
+  var languageKeys = getLanguageKeys();
+	var currentPage = doc.currentPage();
+  var generateString = generateLanguageString(currentPage, languageKeys);
+  saveToLanguageFile(generateString, doc);
+  alert("Generate language file", "Success");
 }
 
-function generateLanguageString(doc, languageKeys) {
-	var textLayers = getTextLayersOfPage([doc currentPage]);
-	var saveString = localeStringFromTextLayers(textLayers,languageKeys);
-	saveToLanguageFile(saveString,doc);
-	alert("Generate language file","Success");
+function generateLanguageString(page, languageKeys) {
+  var localeObject = {};
+
+  var keysArray = [];
+  for (var keyIndex = 0; keyIndex < languageKeys.length; keyIndex++) {
+    var key = languageKeys[keyIndex];
+    keysArray.push(unescape(key));
+  }
+	localeObject["keys"] = keysArray;
+
+	var pageLayers = [page children];
+	for (var i = 0; i < pageLayers.count(); i++) {
+		var layer = [pageLayers objectAtIndex: i];
+		if (isNeedTranslate(layer)) {
+			if (isSymbol(layer)) {
+				generateSymbolLayer(layer, localeObject, languageKeys);
+			} else if (isTextLayer(layer)) {
+				var languageKey = unescape(layer.name());
+				if(!localeObject[languageKey]) {
+					localeObject[languageKey] = generateLocaleObject(layer.stringValue(), languageKeys);
+				}
+			}
+		}
+	}
+
+	return JSON.stringify(localeObject, undefined, 2);
+}
+
+function generateSymbolLayer(symbol, localeObject, languageKeys) {
+	var overrides = NSMutableDictionary.dictionaryWithDictionary(symbol.overrides());
+	generateSymbolOverrides(symbol, overrides, localeObject, languageKeys);
+}
+
+function generateSymbolOverrides(symbol, overrides, localeObject, languageKeys) {
+  var keys = overrides.allKeys();
+  for (var i = 0; i < keys.count(); i++) {
+    var index = keys.objectAtIndex(i);
+    if (overrides[index].class().isSubclassOfClass_(NSMutableDictionary.class())) {
+      generateSymbolOverrides(symbol, overrides[index], localeObject, languageKeys);
+    } else if (overrides[index].class().isSubclassOfClass_(NSString.class())) {
+      var languageKey = unescape(symbol.name() + "_" + index);
+      if (!localeObject[languageKey]) {
+        localeObject[languageKey] = generateLocaleObject(overrides[index], languageKeys);
+      }
+    }
+  }
+}
+
+function generateLocaleObject(stringValue, languageKeys) {
+  var contentObject = {};
+  for (var keyIndex = 0; keyIndex < languageKeys.length; keyIndex++) {
+    var key = languageKeys[keyIndex];
+    contentObject[key] = unescape(stringValue);
+  }
+
+	return contentObject;
 }
 
 function saveToLanguageFile(string, currentDocument) {
     var translationFileURL = [[[currentDocument fileURL] URLByDeletingPathExtension] URLByAppendingPathExtension:@"json"];
-    var saveFilePath = [translationFileURL path]; 
+    var saveFilePath = [translationFileURL path];
 	var saveString = NSString.stringWithString(string + "");
 	saveString.writeToFile_atomically_encoding_error(saveFilePath,
-                                                             true, 
-                                                             NSUTF8StringEncoding, 
+                                                             true,
+                                                             NSUTF8StringEncoding,
                                                              null);
 }
 
-function localeStringFromTextLayers(textLayers, languageKeys) {
-	var localeObject = {};
-	var keysArray = [];
-	for(var keyIndex = 0; keyIndex < languageKeys.length; keyIndex++) {
-        	var key = languageKeys[keyIndex];
-			keysArray.push(unescape(key));
-    }
-
-	localeObject["keys"] = keysArray;
-
-    for (var i = 0; i < textLayers.length; i++) {
-        var textLayer = textLayers[i];
-        languageKey = unescape(textLayer.name());
-
-		var contentObject = {};
-        for(var keyIndex = 0; keyIndex < languageKeys.length; keyIndex++) {
-        	var key = languageKeys[keyIndex];
-			contentObject[key] = unescape(textLayer.stringValue());
-        }
-        localeObject[languageKey] = contentObject;
-    }
-
-    var localeJsonString = JSON.stringify(localeObject, undefined, 2);
-
-    return localeJsonString;
-}
-
-function addToFile(context, filePath){
+function addSelectionsToFile(context, filePath) {
 	var currentString = NSString.stringWithContentsOfFile_encoding_error(filePath, NSUTF8StringEncoding, null);
-	var currentJsonObject = JSON.parse(currentString.toString());
-	var keys = currentJsonObject["keys"];
+	var localeObject = JSON.parse(currentString.toString());
+	var languageKeys = localeObject["keys"];
 
-	var selections = context.selection;
-	if(selections.count() > 0){
-		var textLayers = getTextLayersOfSelections(selections);
-		if(textLayers.length > 0){
-			var saveString = getNewStringContent(currentJsonObject,keys,textLayers);
-			saveToLanguageFile(saveString,context.document);
-			alert("Add language","Success");
-		} else {
-			alert("Notification","Please choose some layers!");
-		}
+	var pageLayers = context.selection;
+	if (pageLayers.count() > 0) {
+	  for (var i = 0; i < pageLayers.count(); i++) {
+	    var layer = [pageLayers objectAtIndex: i];
+	    if (isNeedTranslate(layer)) {
+	      if (isSymbol(layer)) {
+	        generateSymbolLayer(layer, localeObject, languageKeys);
+	      } else if (isTextLayer(layer)) {
+	        var languageKey = unescape(layer.name());
+					if(!localeObject[languageKey]) {
+						localeObject[languageKey] = generateLocaleObject(layer.stringValue(), languageKeys);
+					}
+	      }
+	    }
+	  }
+
+		saveToLanguageFile(JSON.stringify(localeObject, undefined, 2), context.document);
 	} else {
-		alert("Notification","Please choose some layers!");
+	  alert("Notification", "Please choose some layers!");
 	}
 }
 
-function getNewStringContent(currentJsonObject, keys, textLayers) {
-	for (var i = 0; i < textLayers.length; i++) {
-        var textLayer = textLayers[i];
-        languageKey = unescape(textLayer.name());
-
-        if(!currentJsonObject[languageKey]){
-        	var contentObject = {};
-        	for(var keyIndex = 0; keyIndex < keys.length; keyIndex++) {
-        		var key = keys[keyIndex];
-				contentObject[key] = unescape(textLayer.stringValue());
-        	}
-
-        	currentJsonObject[languageKey] = contentObject;
-        } 
-    }
-
-    var localeJsonString = JSON.stringify(currentJsonObject, undefined, 2);
-    return localeJsonString;
-}
-
-function generateAndAddToFile(context){
+function generateAndAddToFile(context) {
 	var languageKeys = getLanguageKeys();
+	var localeObject = {};
 
-	var selections = context.selection;
-	if(selections.count() > 0){
-		var textLayers = getTextLayersOfSelections(selections);
-		if(textLayers.length > 0){
-			var saveString = localeStringFromTextLayers(textLayers,languageKeys);
-			saveToLanguageFile(saveString,context.document);
-		} else {
-			alert("Notification","Please choose some layers!");
+	var keysArray = [];
+	for (var keyIndex = 0; keyIndex < languageKeys.length; keyIndex++) {
+		var key = languageKeys[keyIndex];
+		keysArray.push(unescape(key));
+	}
+	localeObject["keys"] = keysArray;
+
+	var pageLayers = context.selection;
+	if (pageLayers.count() > 0) {
+		for (var i = 0; i < pageLayers.count(); i++) {
+			var layer = [pageLayers objectAtIndex: i];
+			if (isNeedTranslate(layer)) {
+				if (isSymbol(layer)) {
+					generateSymbolLayer(layer, localeObject, languageKeys);
+				} else if (isTextLayer(layer)) {
+					var languageKey = unescape(layer.name());
+					if(!localeObject[languageKey]) {
+						localeObject[languageKey] = generateLocaleObject(layer.stringValue(), languageKeys);
+					}
+				}
+			}
 		}
+
+		saveToLanguageFile(JSON.stringify(localeObject, undefined, 2), context.document);
 	} else {
-		alert("Notification","Please choose some layers!");
+		alert("Notification", "Please choose some layers!");
 	}
 }
 

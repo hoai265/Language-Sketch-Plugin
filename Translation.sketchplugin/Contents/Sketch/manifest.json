@@ -32,11 +32,11 @@
       "com.hoainguyen.sketch.actionAddToLanguageFile",
       "com.hoainguyen.sketch.actionTranslateLanguageFile"
     ],
-    "title" : "Translation"
+    "title" : "Translation Tool"
   },
   "identifier" : "com.hoainguyen.sketch.d8f0dcf3-8e12-4f1d-988c-e2f0da9ad29d",
-  "version" : "1.0",
-  "description" : "A Sketch plugin for easy multi-language design.",
-  "authorEmail" : "nguyentien.hoai265@gmail.com",
+  "version" : "1.1",
+  "description" : "",
+  "authorEmail" : "",
   "name" : "Translation"
 }
