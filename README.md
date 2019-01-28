@@ -1,12 +1,16 @@
 # Language-Sketch-Plugin
 A Sketch plugin for easy multi-language design
 
+# Support Symbol
+ * Change your symbol instance name with prefix **o_**
+ * Override symbol instance content
+
 # Install
  * Download `Translation.sketchplugin.zip` and  extract to get `Translation.sketchplugin` file.
  * Put `Translation.sketchplugin` in Sketch Plugins folder.
- 
+
  Or use Sketchpacks to install and update:
- 
+
  [![Install PLUGIN NAME with Sketchpacks](http://sketchpacks-com.s3.amazonaws.com/assets/badges/sketchpacks-badge-install.png "Install PLUGIN NAME with Sketchpacks")](https://sketchpacks.com/hoai265/language-sketch-plugin/install)
 
 # Usage
@@ -18,7 +22,7 @@ A Sketch plugin for easy multi-language design
 * You can open the `.json` file in any Text Editor to edit. The `.json` file is located in the same folder with the `.sketch` file.
 
   <img src="https://github.com/hoai265/Language-Sketch-Plugin/blob/master/resource/Generate.gif" width="600"/>
-  
+
 ## Action `Translate`:
 
 * In Sketch: `Plugins` > `Translation` -> `Translate` -> choose the language key
@@ -26,7 +30,7 @@ A Sketch plugin for easy multi-language design
   <img src="https://github.com/hoai265/Language-Sketch-Plugin/blob/master/resource/Translate.gif" width="600"/>
 
 ## Action `Add to language file`:
-After generating language file, if you want to add some more text: 
+After generating language file, if you want to add some more text:
 
 * Select all text layer you want to add
 * Change your text layers name you want to add with prefix **o_**
@@ -34,7 +38,7 @@ After generating language file, if you want to add some more text:
 
   <img src="https://github.com/hoai265/Language-Sketch-Plugin/blob/master/resource/AddToFile.gif" width="600"/>
 
-  
+
 # Donation
 
 Let's buy me some ☕ and 🍕
