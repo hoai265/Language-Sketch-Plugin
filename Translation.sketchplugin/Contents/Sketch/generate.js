@@ -72,12 +72,12 @@ function saveToLanguageFile(string, currentDocument) {
 	var saveString = NSString.stringWithString(string + "");
 	saveString.writeToFile_atomically_encoding_error(saveFilePath,
                                                              true,
-                                                             NSUTF8StringEncoding,
+                                                             4,
                                                              null);
 }
 
 function addSelectionsToFile(context, filePath) {
-	var currentString = NSString.stringWithContentsOfFile_encoding_error(filePath, NSUTF8StringEncoding, null);
+	var currentString = NSString.stringWithContentsOfFile_encoding_error(filePath, 4, null);
 	var localeObject = JSON.parse(currentString.toString());
 	var languageKeys = localeObject["keys"];
 
@@ -147,7 +147,7 @@ function getLanguageKeys(){
 	[alertDialog setMessageText:"Enter language keys. Ex: vi,en,us,.."];
 	[alertDialog setAlertStyle:NSWarningAlertStyle];
 	[alertDialog setAccessoryView:inputKeyContainerView]
-	if ([alertDialog runModal] == NSAlertFirstButtonReturn) {
+	if ([alertDialog runModal] == 1000) {
 		var languageKeys = [[textField stringValue] componentsSeparatedByString:","];
 		return languageKeys;
 	}

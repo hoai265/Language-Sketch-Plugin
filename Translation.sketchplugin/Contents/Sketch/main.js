@@ -15,7 +15,7 @@ var onGenerate = function(context) {
 			[alertDialog addButtonWithTitle:"Cancel"];
 			[alertDialog setMessageText:"Replace current file?"];
 			[alertDialog setAlertStyle:NSWarningAlertStyle];
-			if ([alertDialog runModal] == NSAlertFirstButtonReturn) {
+			if ([alertDialog runModal] == 1000) {
 				generateLanguageFile(currentDocument);
 			}
 		} else {

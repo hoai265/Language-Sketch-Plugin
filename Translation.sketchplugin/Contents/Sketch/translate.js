@@ -1,7 +1,7 @@
 @import 'utils.js'
 
 function translateFile(context, filePath) {
-  var currentString = NSString.stringWithContentsOfFile_encoding_error(filePath, NSUTF8StringEncoding, null);
+  var currentString = NSString.stringWithContentsOfFile_encoding_error(filePath, 4, null);
   var currentJsonObject = JSON.parse(currentString.toString());
   var keys = currentJsonObject["keys"];
 
@@ -17,7 +17,7 @@ function translateFile(context, filePath) {
 	[languageDialog addButtonWithTitle:'Cancel']
 	[languageDialog setAccessoryView:comboBoxContainer]
 
-	if ([languageDialog runModal] == NSAlertFirstButtonReturn) {
+	if ([languageDialog runModal] == 1000) {
 		var keyIndex = [comboxBox indexOfSelectedItem];
 		var currentPage = context.document.currentPage();
 		translatePage(currentPage, currentJsonObject, keys[keyIndex]);
