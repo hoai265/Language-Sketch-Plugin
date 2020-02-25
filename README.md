@@ -1,9 +1,13 @@
 # Language-Sketch-Plugin
 A Sketch plugin for easy multi-language design
 
+# Upcoming
+ - Integrate with Google Sheets
+ - More translate options
+
 # Support Symbol
  * Change your symbol instance name with prefix **o_**
- * Override symbol instance content
+ * Override symbol instance content (We only support symbol instance have overide symbol master content)
 
 # Install
  * Download `Translation.sketchplugin.zip` and  extract to get `Translation.sketchplugin` file.
